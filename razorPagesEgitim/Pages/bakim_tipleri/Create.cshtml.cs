@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using razorPagesEgitim.Data;
 using razorPagesEgitim.Models;
+using razorPagesEgitim.Utility;
 
 namespace razorPagesEgitim.Pages.bakim_tipleri
 {
+    [Authorize(Roles = StatikRoller.AdminKullanici)]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _db;

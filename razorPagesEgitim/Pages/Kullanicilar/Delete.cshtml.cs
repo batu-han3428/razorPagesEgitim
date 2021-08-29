@@ -10,7 +10,7 @@ using razorPagesEgitim.Data;
 using razorPagesEgitim.Models;
 using razorPagesEgitim.Utility;
 
-namespace razorPagesEgitim.Pages.bakim_tipleri
+namespace razorPagesEgitim.Pages.Kullanicilar
 {
     [Authorize(Roles = StatikRoller.AdminKullanici)]
     public class DeleteModel : PageModel
@@ -21,36 +21,42 @@ namespace razorPagesEgitim.Pages.bakim_tipleri
         {
             _db = db;
         }
+
         [BindProperty]
-        public bakimTipi BakimTipi { get; set; }
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public ApplicationUser applicationUser { get; set; }
+
+        public async Task<IActionResult> OnGet(string id)
         {
-            if(id == null)
+            if (id.Trim().Length == 0)
             {
                 return NotFound();
             }
 
-            BakimTipi = await _db.bakimTipi.FirstOrDefaultAsync(a => a.Id == id);
+            applicationUser = await _db.applicationUser.FirstOrDefaultAsync(a => a.Id == id);
 
-            if(BakimTipi == null)
+            if (applicationUser == null)
             {
                 return NotFound();
             }
 
             return Page();
         }
-    
+
         public async Task<IActionResult> OnPostAsync()
         {
-            if(BakimTipi == null)
-            {
-                return NotFound();
-            }
 
-            _db.bakimTipi.Remove(BakimTipi);
-            await _db.SaveChangesAsync();
+                var kullaniciDb = await _db.applicationUser.SingleOrDefaultAsync(x => x.Id == applicationUser.Id);
 
-            return RedirectToPage("Index");
+                if (kullaniciDb == null)
+                    return NotFound();
+                else
+                {
+
+                    _db.Users.Remove(kullaniciDb);
+                    await _db.SaveChangesAsync();
+
+                    return RedirectToPage("Index");
+                }
         }
     }
 }

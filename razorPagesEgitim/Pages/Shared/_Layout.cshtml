@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using razorPagesEgitim.Utility 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,43 +33,46 @@
                         <li class="nav-item">
                             <a class="nav-link text-info" asp-area="" asp-page="/Index">Ana Sayfa</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-info" asp-area="" asp-page="/bakim_tipleri/Index">Bakım Tipleri</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-info" asp-area="" asp-page="/Kullanicilar/Index">Referanslar</a>
-                        </li>
+                        @if (User.IsInRole(StatikRoller.AdminKullanici))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-info" asp-area="" asp-page="/bakim_tipleri/Index">Bakım Tipleri</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-info" asp-area="" asp-page="/Kullanicilar/Index">Referanslar</a>
+                            </li>
+                        }
                     </ul>
-                    <partial name="_LoginPartial" />
+                                <partial name = "_LoginPartial" />
+                            </div >
+                        </div >
+                    </nav >
+                </header >
+                <div class="container">
+                    <main role = "main" class="pb-3">
+                        @RenderBody()
+                    </main>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-white-50" style="background-color:black;">
-        <div class="container">
-            &copy; 2021 - razorPagesEgitim - <a asp-area="" asp-page="/Privacy">Gizlilik</a>
-        </div>
-    </footer>
+                <footer class="border-top footer text-white-50" style="background-color:black;">
+                    <div class="container">
+                        &copy; 2021 - razorPagesEgitim - <a asp-area="" asp-page="/Privacy">Gizlilik</a>
+                    </div>
+                </footer>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    </environment>
-    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
-    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
-<environment exclude="Development">
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-</environment>
-    
-    <script src="~/js/site.js" asp-append-version="true"></script>
+                <environment include = "Development" >
+                    <script src="~/lib/jquery/dist/jquery.js"></script>
+                    <script src = "~/lib/bootstrap/dist/js/bootstrap.bundle.js" ></script >
+                </environment >
+                    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+                    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+                        <environment exclude="Development">
+                            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                        </environment>
 
-    @await RenderSectionAsync("Scripts", required: false)
+                        <script src="~/js/site.js" asp-append-version="true"></script>
+
+                        @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

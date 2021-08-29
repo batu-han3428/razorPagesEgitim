@@ -78,6 +78,8 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
             public string postaKodu { get; set; }
             [Required]
             public string PhoneNumber { get; set; }
+
+            public bool Admin { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -114,39 +116,67 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
                         await _roleManager.CreateAsync(new IdentityRole(StatikRoller.MusteriKullanici));
                     }
 
-                    
-                    if (_userManager.Users.Count() == 1)//ilk kaydın admin olarak kaydedilmesi için
+
+                    //if (_userManager.Users.Count() == 1)//ilk kaydın admin olarak kaydedilmesi için
+                    //{
+                    //    await _userManager.AddToRoleAsync(user, StatikRoller.AdminKullanici);
+                    //}
+                    //else//sonra ki kayıtlar müşteri
+                    //{
+                    //    await _userManager.AddToRoleAsync(user, StatikRoller.MusteriKullanici);
+                    //}
+
+
+                    if (Input.Admin)
                     {
                         await _userManager.AddToRoleAsync(user, StatikRoller.AdminKullanici);
-                    }
-                    else//sonra ki kayıtlar müşteri
-                    {
-                        await _userManager.AddToRoleAsync(user, StatikRoller.MusteriKullanici);
-                    }
-                   
 
-                    _logger.LogInformation("User created a new account with password.");
+                        ///
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                            protocol: Request.Scheme);
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("/Kullanicilar/Index");
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        await _userManager.AddToRoleAsync(user, StatikRoller.MusteriKullanici);
+
+                        //await _signInManager.SignInAsync(user, isPersistent: false); //admin, müşteri kaydı oluşturduğunda oluşturduğu hesaba oto giriş
+                        //yaptığı için bu kısmı yorum satırına aldık. ve altta ki if bloğunu yazdık
+
+                        if (User.IsInRole(StatikRoller.AdminKullanici))
+                        {
+                            return RedirectToPage("/Kullanicilar/Index");
+                        }
+                        else
+                        {
+                            return LocalRedirect(returnUrl);
+                        }
+
+                        
                     }
+
+                    //_logger.LogInformation("User created a new account with password.");
+
+                    
+
+                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    //{
+                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    //}
+                    //else
+                    //{
+                    //    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //    return LocalRedirect(returnUrl);
+                    //}
                 }
                 foreach (var error in result.Errors)
                 {
