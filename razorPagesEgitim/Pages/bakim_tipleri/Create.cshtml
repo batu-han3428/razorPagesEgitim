@@ -1,0 +1,43 @@
+﻿@page
+@model razorPagesEgitim.Pages.bakim_tipleri.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h2 class="text-light">Yeni Bakım Tipi Oluştur</h2>
+<br />
+
+<form method="post">
+    <div class="border backgroundwhite">
+        <div class="form-group row">
+            <div class="col-2">
+                <label for="ad" class="form-label">Bakım Adı:</label>
+                @*<label asp-for="BakimTipi.BakimAdi"></label>*@ @*Veri tabanında ki tablonun sütun adına erişim kodu*@
+            </div>
+            <div class="col-5">
+                <input id="ad" asp-for="BakimTipi.BakimAdi" class="form-control" />
+            </div>
+            <span asp-validation-for="BakimTipi.BakimAdi" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label for="fiyat" class="form-label">Bakım Fiyatı:</label>
+                @*<label asp-for="BakimTipi.BakimFiyati"></label>*@ @*Veri tabanında ki tablonun sütun adına erişim kodu*@
+            </div>
+            <div class="col-5">
+                <input id="fiyat" asp-for="BakimTipi.BakimFiyati" class="form-control" />
+            </div>
+            <span asp-validation-for="BakimTipi.BakimFiyati" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_OlusturveGeriDonButonlari" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{  
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} @*asp-validation-for ların düzgün bir şekilde çalışması için yazdık. ekrana uyarı vermek için*@

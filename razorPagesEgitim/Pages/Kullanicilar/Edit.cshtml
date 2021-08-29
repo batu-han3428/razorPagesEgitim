@@ -1,0 +1,97 @@
+﻿@page
+@model razorPagesEgitim.Pages.Kullanicilar.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<br />
+<h2 class="text-info">Kullanıcı Düzenle</h2>
+<br />
+
+<form method="post">
+    <div class="border backgroundwhite">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ApplicationUser.Id" />
+        <input type="hidden" asp-for="ApplicationUser.Email" />
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.adSoyad" class="form-label text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.adSoyad" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="ApplicationUser.adSoyad" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.Email" class="form-label text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.Email" readonly class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.PhoneNumber" class="form-label text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.PhoneNumber" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="ApplicationUser.PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.adres" class="form-label text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.adres" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="ApplicationUser.adres" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.sehir" class="form-label text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.sehir" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="ApplicationUser.sehir" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.postaKodu" class="form-label text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.postaKodu" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="ApplicationUser.postaKodu" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_DuzenleveGeriDonButonlari" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} @*asp-validation-for ların düzgün bir şekilde çalışması için yazdık. ekrana uyarı vermek için*@

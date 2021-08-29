@@ -1,0 +1,40 @@
+﻿@page
+@model razorPagesEgitim.Pages.bakim_tipleri.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<br />
+<h2 class="text-light">Bakım Tipi Detayları</h2>
+<br />
+
+
+    <div class="border backgroundwhite">
+        <div class="row">
+            <div class="col-2">
+                <label for="ad" class="form-label">Bakım Adı:</label>
+                @*<label asp-for="BakimTipi.BakimAdi"></label>*@ @*Veri tabanında ki tablonun sütun adına erişim kodu*@
+            </div>
+            <div class="col-5">
+                <input id="ad" asp-for="BakimTipi.BakimAdi" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+                <label for="fiyat" class="form-label">Bakım Fiyatı:</label>
+                @*<label asp-for="BakimTipi.BakimFiyati"></label>*@ @*Veri tabanında ki tablonun sütun adına erişim kodu*@
+            </div>
+            <div class="col-5">
+                <input id="fiyat" asp-for="BakimTipi.BakimFiyati" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5 offset-2 mt-2">
+                <div class="row">
+                    <div class="col-12">
+                        <a style="width:100%;" asp-page="Index" class="btn btn-danger form-control">Geri</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

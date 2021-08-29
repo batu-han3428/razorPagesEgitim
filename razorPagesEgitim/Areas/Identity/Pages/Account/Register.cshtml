@@ -1,0 +1,122 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<br />
+<h2 class="text-light pt-2 pb-3">Hesap Oluştur</h2>
+<br />
+
+<div class="backgroundwhite border">
+    <div class="col-md-8">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="adSoyad" class="form-label">Ad-Soyad:</label>
+                        @*<label asp-for="Input.adSoyad" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <input id="adSoyad" asp-for="Input.adSoyad" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.adSoyad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="email" class="form-label">Email:</label>
+                        @*<label asp-for="Input.Email" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <input id="email" asp-for="Input.Email" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="telefon" class="form-label">Telefon:</label>
+                        @*<label asp-for="Input.PhoneNumber" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <input id="telefon" asp-for="Input.PhoneNumber" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="adres" class="form-label">Adres:</label>
+                        @*<label asp-for="Input.adres" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <textarea id="adres" asp-for="Input.adres" class="form-control" cols="10" rows="7"></textarea>
+                    </div>
+                    <span asp-validation-for="Input.adres" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="sehir" class="form-label">Şehir:</label>
+                        @*<label asp-for="Input.sehir" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <input id="sehir" asp-for="Input.sehir" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.sehir" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="postaKodu" class="form-label">Posta Kodu:</label>
+                        @*<label asp-for="Input.postaKodu" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <input id="postaKodu" asp-for="Input.postaKodu" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.postaKodu" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="parola" class="form-label">Parola:</label>
+                        @*<label asp-for="Input.Password" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <input id="parola" asp-for="Input.Password" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="parolaTekrar" class="form-label">Parola Tekrar:</label>
+                        @*<label asp-for="Input.ConfirmPassword" class="form-label"></label>*@
+                    </div>
+                    <div class="col-8">
+                        <input id="parola" asp-for="Input.ConfirmPassword" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 offset-4">
+                    <button style="width:100%;" type="submit" class="btn btn-primary">Kayıt Ol</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

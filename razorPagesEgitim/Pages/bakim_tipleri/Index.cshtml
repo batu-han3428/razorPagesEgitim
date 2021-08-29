@@ -1,0 +1,54 @@
+﻿@page
+@model razorPagesEgitim.Pages.bakim_tipleri.IndexModel
+@{            
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+<div class="border backgroundwhite">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Bakım Tipleri</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-page="Create" class="btn btn-info"><i class="bi bi-plus-lg" style="color:white;"></i>&nbsp; Yeni Bakım Tipi Oluştur</a>
+        </div>
+    </div>
+    <br />
+    <div>
+        @if(Model.BakimTipi.Count == 0)
+         {
+            <p>Herhangi bir bakım tipi bulunamadı. Lütfen bir bakım tipi oluşturunuz!</p>
+         }
+         else
+         {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>Bakım Adı</th>
+                    <th>Bakım Fiyatı</th>
+                    @*<th>@Html.DisplayNameFor(a => a.BakimTipi[0].BakimAdi)</th>
+                    <th>@Html.DisplayNameFor(a => a.BakimTipi[0].BakimFiyati)</th>*@ @*veritabanında ki sütun adlarını yazdırdık*@
+                    <th style="text-align:center;">İşlemler</th>
+                </tr>
+                @foreach (var item in Model.BakimTipi)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(a => item.BakimAdi)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(a => item.BakimFiyati)TL
+                        </td>
+                        <td style="width:150px;">
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-warning text-white" asp-page="Edit" asp-route-id="@item.Id"><i class="bi bi-pen-fill" style="color:white"></i></a>
+                                <a class="btn btn-primary text-white" asp-page="Details" asp-route-id="@item.Id"><i class="bi bi-info-circle-fill" style="color:white"></i></a>
+                                <a class="btn btn-danger text-white" asp-page="Delete" asp-route-id="@item.Id"><i class="bi bi-trash-fill" style="color:white"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+         }
+    </div>
+</div>
