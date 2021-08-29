@@ -47,7 +47,12 @@ namespace razorPagesEgitim
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();//yukarýda ki yorum satýrýna aldýðýmýz kodu bu þekilde düzelttik. sadece kayýt olurken doðrulama istenecek
 
-           
+            services.AddAuthentication().AddFacebook(fb =>
+            {
+                fb.AppId = "324855876087568";
+                fb.AppSecret = "df4fdda15f880443ef3d0630df4244fc";
+            });
+
             
             services.AddRazorPages().AddRazorRuntimeCompilation();//nugetten microsoft.aspnetcore.mvc.razor.runtimecompilation indirdik.
             //addrazorPagesin devamýna addrazorruntimecompilation u ekledik. 
