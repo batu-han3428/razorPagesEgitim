@@ -15,5 +15,6 @@ namespace razorPagesEgitim.Data
         }
         public DbSet<bakimTipi> bakimTipi { get; set; }
         public DbSet<ApplicationUser> applicationUser { get; set; }
+        public DbSet<Makina> Makina { get; set; }
     }
 }

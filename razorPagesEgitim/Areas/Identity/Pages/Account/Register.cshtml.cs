@@ -26,8 +26,8 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ApplicationDbContext _db;
+        private readonly RoleManager<IdentityRole> _roleManager;//rol atamak için ekledim
+        private readonly ApplicationDbContext _db;//identitynin hazır tablosuna fieldlar ekledim. onlara veri atmak için ekledim
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
