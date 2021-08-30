@@ -58,5 +58,57 @@ namespace razorPagesEgitim.Pages.Bakimlar
 
             return Page();
         }
+    
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (ModelState.IsValid)
+            {
+                //Bakým hizmetinin oluþturulma tarihini aldýk
+                MakinaBakimHizmetiViewModel.BakimHizmetiGenel.EklendigiTarih = DateTime.Now;
+
+                //bakimhizmetkart ý sepet olarak düþünelim. sepetin içinde ki bakým tiplerini aldýk
+                MakinaBakimHizmetiViewModel.BakimHizmetKart = _db.BakimHizmetKart.Include(a => a.BakimTipi)
+                    .Where(a => a.MakinaId == MakinaBakimHizmetiViewModel.Makina.Id).ToList();
+                
+
+                //sepet içinde ki bakým tiplerinin fiyatlarýný aldýk
+                foreach (var item in MakinaBakimHizmetiViewModel.BakimHizmetKart)
+                {
+                    MakinaBakimHizmetiViewModel.BakimHizmetiGenel.ToplamFiyat += item.BakimTipi.BakimFiyati;
+
+                }
+                    
+                 //bu bilgilerin hangi makina için yapýldýðýný aktardýk
+                 MakinaBakimHizmetiViewModel.BakimHizmetiGenel.MakinaId = MakinaBakimHizmetiViewModel.Makina.Id;
+               
+                //yukarýda ki bilgileri database e attýk
+                _db.BakimHizmetiGenel.Add(MakinaBakimHizmetiViewModel.BakimHizmetiGenel);
+                await _db.SaveChangesAsync();
+
+                //sepette ki bakým tipinin detaylarýný bakimhizmetdetay tablosuna ekledik
+                foreach (var detay in MakinaBakimHizmetiViewModel.BakimHizmetKart)
+                {
+                    BakimHizmetiDetay bakimHizmetiDetay = new BakimHizmetiDetay
+                    {
+                        BakimHizmetiGenelId = MakinaBakimHizmetiViewModel.BakimHizmetiGenel.Id,
+                        BakimAdi = detay.BakimTipi.BakimAdi,
+                        BakimFiyati = detay.BakimTipi.BakimFiyati,
+                        BakimTipiId = detay.BakimTipiId
+                    }; 
+                    
+                    _db.BakimHizmetiDetay.Add(bakimHizmetiDetay);
+                }
+
+                //sepetten bilgileri sildik ve asýl tablolara aldýðýmýz verileri database e kaydettik
+                _db.BakimHizmetKart.RemoveRange(MakinaBakimHizmetiViewModel.BakimHizmetKart);
+                await _db.SaveChangesAsync();
+
+                return RedirectToPage("../Makineler/Index", new { kullaniciId = MakinaBakimHizmetiViewModel.Makina.KullaniciId });
+            }
+            else
+            {
+                return Page();
+            }
+        }
     }
 }
