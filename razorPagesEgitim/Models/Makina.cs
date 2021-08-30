@@ -13,7 +13,7 @@ namespace razorPagesEgitim.Models
         public int Id { get; set; }
 
         [Required]
-        public string SN {get;set;}
+        public string SN {get;set;}//Makina SeriNo
 
         [Required]
         public string Marka { get; set; }

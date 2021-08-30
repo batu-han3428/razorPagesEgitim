@@ -1,0 +1,79 @@
+﻿@page
+@model razorPagesEgitim.Pages.Makinalar.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h2 class="text-light">Yeni Makine Oluştur</h2>
+<br />
+
+<form method="post">
+    <div class="border backgroundwhite">
+        <input type="hidden" asp-for="Makina.KullaniciId" />
+        <div asp-validation-summary="ModelOnly" class="text-light bg-danger"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Makina.SN"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Makina.SN" class="form-control" />
+            </div>
+            <span asp-validation-for="Makina.SN" class="text-light bg-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Makina.Marka"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Makina.Marka" class="form-control" />
+            </div>
+            <span asp-validation-for="Makina.Marka" class="text-light bg-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Makina.Model"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Makina.Model" class="form-control" />
+            </div>
+            <span asp-validation-for="Makina.Model" class="text-light bg-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Makina.MakinaTipi"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Makina.MakinaTipi" class="form-control" />
+            </div>
+            <span asp-validation-for="Makina.MakinaTipi" class="text-light bg-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Makina.Yil"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Makina.Yil" class="form-control" />
+            </div>
+            <span asp-validation-for="Makina.Yil" class="text-light bg-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Makina.EkAciklama"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Makina.EkAciklama" class="form-control" />
+            </div>
+            <span asp-validation-for="Makina.EkAciklama" class="text-light bg-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_OlusturveGeriDonButonlari" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

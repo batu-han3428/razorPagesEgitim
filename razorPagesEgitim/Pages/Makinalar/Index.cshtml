@@ -1,0 +1,136 @@
+﻿@page
+@using razorPagesEgitim.Utility
+@model razorPagesEgitim.Pages.Makinalar.IndexModel
+@{      ViewData["Title"] = "Makinalar";
+}
+
+
+
+<h2 class="text-light py-2">Müşteri Makine Kaydı</h2>
+
+<div class="container backgroundwhite">
+    <partial name="_StatusMessage" model="Model.DurumMesaj" />
+    <!-- Statüs mesaj identity nin manage klasöründe hazır olan bir sayfa. onu copy paste ile shareda
+        atıp burada çağırdık. pagemodellerde tempdata oluşturup atamasını create pagemodelde yaptık -->
+    <div class="card">
+        <div class="card-header bg-dark text-light ml-0 row container">
+            <div class="col-6">
+                <i class="bi bi-gear-wide-connected" style="font-size:25px;"></i>
+            </div>
+            <div class="col-6 text-right">
+                @if (User.IsInRole(StatikRoller.AdminKullanici))
+                {
+                    <a asp-page="/Kullanicilar/Index" class="btn btn-outline-info btn-sm">Kullanıcıları Listele</a>
+                }
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row" style="padding-bottom:40px; padding-top:20px;">
+                <div class="col-md-3">
+                    <p>
+                        <a asp-page="Create" asp-route-userId="@Model.KullaniciMakinaViewModel.KullaniciObj.Id" class="btn btn-info form-control">
+                        <i class="bi bi-plus-lg" style="color:white;"></i>&nbsp; Makine Ekle
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label asp-for="KullaniciMakinaViewModel.KullaniciObj.adSoyad"></label>
+                        </div>
+                            <div class="col-sm-8" style="padding-bottom:5px">
+                                <input asp-for="KullaniciMakinaViewModel.KullaniciObj.adSoyad" disabled class="form-control" />
+                            </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label asp-for="KullaniciMakinaViewModel.KullaniciObj.Email"></label>
+                        </div>
+                            <div class="col-sm-8" style="padding-bottom:5px">
+                                <input asp-for="KullaniciMakinaViewModel.KullaniciObj.Email" disabled class="form-control" />
+                            </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label asp-for="KullaniciMakinaViewModel.KullaniciObj.PhoneNumber"></label>
+                        </div>
+                            <div class="col-sm-8" style="padding-bottom:5px">
+                                <input asp-for="KullaniciMakinaViewModel.KullaniciObj.PhoneNumber" disabled class="form-control" />
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+            @if (Model.KullaniciMakinaViewModel.Makinalar.Count() == 0) {
+                <p>
+                    Herhangi bir makine kaydı bulunamadı. Lütfen makine ekleyiniz..
+                </p>
+            }
+            else
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            @Html.DisplayNameFor(a => a.KullaniciMakinaViewModel.Makinalar.FirstOrDefault().SN)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(a => a.KullaniciMakinaViewModel.Makinalar.FirstOrDefault().Marka)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(a => a.KullaniciMakinaViewModel.Makinalar.FirstOrDefault().Model)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(a => a.KullaniciMakinaViewModel.Makinalar.FirstOrDefault().MakinaTipi)
+                        </th>
+                        <th></th>
+                        @if (User.IsInRole(StatikRoller.AdminKullanici))
+                        {
+                            <th></th>
+                        }
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.KullaniciMakinaViewModel.Makinalar)
+	                 {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(a => item.SN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(a => item.Marka)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(a => item.Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(a => item.MakinaTipi)
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" asp-page="../Bakimlar/BakimGecmisi" asp-route-makineId="@item.Id"><i class="bi bi-gear-fill" style="color:white;"></i>&nbsp; Bakım Geçmişi</a>
+                    </td>
+                    @if (User.IsInRole(StatikRoller.AdminKullanici))
+                    {
+                        <td>
+                            <a class="btn btn-success" asp-page="../Bakimlar/Create" asp-route-makineId="@item.Id">
+                                <i class="bi bi-plus-lg" style="color:white;">&nbsp;Yeni Bakım Oluştur </i>
+                            </a>
+                        </td>
+                    }
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-primary text-light" asp-page="Edit" asp-route-Id="@item.Id">
+                                <i class="bi bi-pencil-square" style="color:white;"></i>
+                            </a>
+                            <a class="btn btn-danger text-light" asp-page="Delete" asp-route-Id="@item.Id">
+                                <i class="bi bi-trash-fill" style="color:white;"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+	                 }
+               </table>
+            }
+        </div>
+    </div>
+</div>
