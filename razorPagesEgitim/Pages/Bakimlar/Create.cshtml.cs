@@ -110,5 +110,32 @@ namespace razorPagesEgitim.Pages.Bakimlar
                 return Page();
             }
         }
+    
+        public async Task<IActionResult> OnPostKartaEklemeAsync()
+        {
+            //hangi makinaya hangi bakým tipini ekleyeceðimizi belirledik. sepete ekledik
+            BakimHizmetKart objBakimKarti = new BakimHizmetKart
+            {
+                MakinaId = MakinaBakimHizmetiViewModel.Makina.Id,
+                BakimTipiId = MakinaBakimHizmetiViewModel.BakimHizmetiDetay.BakimTipiId
+            };
+
+            _db.BakimHizmetKart.Add(objBakimKarti);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage("Create",new { makineId = MakinaBakimHizmetiViewModel.Makina.Id });
+        }
+
+        public async Task<IActionResult> OnPostKarttanSilmeAsync(int bakimTipiId)
+        {
+            //sepetten kayýtlarý sildik
+            BakimHizmetKart objBakimKarti = _db.BakimHizmetKart.FirstOrDefault(a => a.MakinaId == MakinaBakimHizmetiViewModel.Makina.Id && a.BakimTipiId == bakimTipiId);
+
+            _db.BakimHizmetKart.Remove(objBakimKarti);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage("Create", new { makineId = MakinaBakimHizmetiViewModel.Makina.Id });
+        }
+
     }
 }

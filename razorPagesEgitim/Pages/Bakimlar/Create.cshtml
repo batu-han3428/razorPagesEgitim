@@ -4,3 +4,119 @@
     ViewData["Title"] = "Create";
 }
 
+
+<div class="container backgroundwhite">
+    <div class="container mb-2 pt-4 pb-2 row row ml-0" style="border-top-left-radius: 50%; border-bottom-right-radius:50%; background-color: rgb(155, 148, 163);">
+        <div class="col-6">
+            <h2 class="text-light py-2">Yeni Bakım Oluştur</h2>
+        </div>
+        <div class="col-3 offset-3 text-right py-2">
+            <a asp-page="../Makinalar/Index" asp-route-kullaniciId="@Model.MakinaBakimHizmetiViewModel.Makina.KullaniciId" class="btn btn-outline-light form-control">Listeye Geri Dön</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header bg-dark text-light ml-0 row container" style="border-bottom-left-radius: 50%; border-top-right-radius:50%;">
+            <div class="col-1 text-center pt-3 text-white-50">
+                <i class="bi bi-person-circle" style="font-size:30px; color:white;"></i>
+            </div>
+            <div class="col-5">
+                <label class="text-info">@Model.MakinaBakimHizmetiViewModel.Makina.ApplicationUser.adSoyad</label>
+                <br />
+                <label class="text-info">@Model.MakinaBakimHizmetiViewModel.Makina.ApplicationUser.Email / @Model.MakinaBakimHizmetiViewModel.Makina.ApplicationUser.PhoneNumber</label>
+                <br />
+            </div>
+            <div class="col-5 text-right">
+                <label class="text-info">@Model.MakinaBakimHizmetiViewModel.Makina.Marka @Model.MakinaBakimHizmetiViewModel.Makina.Model</label>
+                <br />
+                <label class="text-info">@Model.MakinaBakimHizmetiViewModel.Makina.MakinaTipi @Model.MakinaBakimHizmetiViewModel.Makina.Yil</label>
+            </div>
+            <div class="col-1 text-center pt-3 text-white-50">
+                <i class="bi bi-gear-wide-connected" style="color:white; font-size:30px;"></i>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="post" style="width:100%;">
+                <div class="container">
+                    <input type="hidden" asp-for="MakinaBakimHizmetiViewModel.Makina.Marka" />
+                    <input type="hidden" asp-for="MakinaBakimHizmetiViewModel.Makina.Model" />
+                    <input type="hidden" asp-for="MakinaBakimHizmetiViewModel.Makina.SN" />
+                    <input type="hidden" asp-for="MakinaBakimHizmetiViewModel.Makina.KullaniciId" />
+                    <input type="hidden" asp-for="MakinaBakimHizmetiViewModel.Makina.Id" />
+                    <div class="border rounded p-2">
+                        <div class="row">
+                            <div class="col-3">
+                                <h4 class="text-info pl-3 pt-2 pb-1">Bakım Ekle</h4>
+                            </div>
+                            <div class="col-9 pb-1 pt-2">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <select asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiDetay.BakimTipiId" asp-items="@(new SelectList(Model.MakinaBakimHizmetiViewModel.BakimTipleriListesi,"Id","BakimAdi" ))" class="form-control"></select>
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" asp-page-handler="OnPostKartaEklemeAsync" class="form-control btn btn-primary">Ekle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border container rounded p-2">
+                        <h3 class="text-info pb-2">Bakım Özet Bilgi</h3>
+                        @if (Model.MakinaBakimHizmetiViewModel.BakimHizmetKart.Count == 0)
+                        {
+                            <p>
+                                Herhangi bir bakım tipi eklenmemiştir. Lütfen bakım hizmeti için ilgili bakım tipini seçiniz!
+                            </p>
+                        }
+                        else {
+                            <div class="row mt-3">
+                                <div class="col-7">
+                                    <table class="table table-striped border">
+                                        <tr class="table-secondary"> 
+                                            <th>@Html.DisplayNameFor(a=>Model.MakinaBakimHizmetiViewModel.BakimTipleriListesi.FirstOrDefault().BakimAdi)</th>
+                                            <th>@Html.DisplayNameFor(a=>Model.MakinaBakimHizmetiViewModel.BakimTipleriListesi.FirstOrDefault().BakimFiyati)</th>
+                                            <th></th>
+                                        </tr>
+                                        @foreach (var item in Model.MakinaBakimHizmetiViewModel.BakimHizmetKart)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(a=>item.BakimTipi.BakimAdi)</td>
+                                                <td>@Html.DisplayFor(a=>item.BakimTipi.BakimFiyati)</td>
+                                                <td><button type="submit" asp-page-handler="OnPostKarttanSilmeAsync" asp-route-bakimTipiId="@item.BakimTipiId" class="btn btn-danger form-control"><i class="bi bi-trash-fill"></i></button></td>
+                                            </tr>
+                                        }
+                                        <tr style="background-color:#002cff;">
+                                            <td colspan="1">
+                                                <h6 class="text-success">Toplam Fiyat:</h6>
+                                            </td>
+                                            <td colspan="2">
+                                                <h6 class="text-success">@Model.MakinaBakimHizmetiViewModel.BakimHizmetiGenel.ToplamFiyat&nbsp;TL</h6>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-5 px-4 pb-2">
+                                    <div class="col-3">
+                                        <label asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.MakinaSayacSaat" class="form-label" style="border:none;"></label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.MakinaSayacSaat" id="txtMakineSayacSaat" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row py-2">
+                                    <div class="col-12">
+                                        <textarea placeholder="Buraya açıklamalarınızı girebilirsiniz..." asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.Detaylar" class="form-control" style="height:100px;"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row p-0">
+                                    <div class="col-12">
+                                        <button class="btn btn-success form-control" onclick="return girisiOnayla()">Bakım Tamamlandı</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
