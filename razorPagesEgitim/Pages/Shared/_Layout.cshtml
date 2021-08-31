@@ -21,18 +21,17 @@
 </head>
 <body class="search-background">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+        <nav style="background-color: rgb(5, 71, 103) !important;" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Razor Pages Eğitim</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <img src="~/images/anasayfaLogo.jpg" style="width:75px;" />
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-info" asp-area="" asp-page="/Index">Ana Sayfa</a>
-                        </li>
                         @if (User.IsInRole(StatikRoller.AdminKullanici))
                         {
                             <li class="nav-item">
@@ -40,6 +39,13 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-info" asp-area="" asp-page="/Kullanicilar/Index">Referanslar</a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(StatikRoller.MusteriKullanici))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-info" asp-area="" asp-page="/Makinalar/Index">Makinalar</a>
                             </li>
                         }
                     </ul>
@@ -54,7 +60,7 @@
                     </main>
                 </div>
 
-                <footer class="border-top footer text-white-50" style="background-color:black;">
+                <footer style="background: linear-gradient(rgb(0, 97, 238), white,rgb(0, 97, 238)); " class="border-top footer text-info">
                     <div class="container">
                         &copy; 2021 - razorPagesEgitim - <a asp-area="" asp-page="/Privacy">Gizlilik</a>
                     </div>

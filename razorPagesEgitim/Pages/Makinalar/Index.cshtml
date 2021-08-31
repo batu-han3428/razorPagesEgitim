@@ -107,7 +107,7 @@
                         @Html.DisplayFor(a => item.MakinaTipi)
                     </td>
                     <td>
-                        <a class="btn btn-secondary" asp-page="../Bakimlar/BakimGecmisi" asp-route-makineId="@item.Id"><i class="bi bi-gear-fill" style="color:white;"></i>&nbsp; Bakım Geçmişi</a>
+                        <a class="btn btn-secondary" asp-page="../Bakimlar/BakimGesmisi" asp-route-makineId="@item.Id"><i class="bi bi-gear-fill" style="color:white;"></i>&nbsp; Bakım Geçmişi</a>
                     </td>
                     @if (User.IsInRole(StatikRoller.AdminKullanici))
                     {

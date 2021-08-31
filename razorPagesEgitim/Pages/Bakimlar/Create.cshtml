@@ -53,7 +53,7 @@
                                         <select asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiDetay.BakimTipiId" asp-items="@(new SelectList(Model.MakinaBakimHizmetiViewModel.BakimTipleriListesi,"Id","BakimAdi" ))" class="form-control"></select>
                                     </div>
                                     <div class="col-4">
-                                        <button type="submit" asp-page-handler="OnPostKartaEklemeAsync" class="form-control btn btn-primary">Ekle</button>
+                                        <button type="submit" asp-page-handler="KartaEkleme" class="form-control btn btn-primary">Ekle</button>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                             <tr>
                                                 <td>@Html.DisplayFor(a=>item.BakimTipi.BakimAdi)</td>
                                                 <td>@Html.DisplayFor(a=>item.BakimTipi.BakimFiyati)</td>
-                                                <td><button type="submit" asp-page-handler="OnPostKarttanSilmeAsync" asp-route-bakimTipiId="@item.BakimTipiId" class="btn btn-danger form-control"><i class="bi bi-trash-fill"></i></button></td>
+                                                <td><button type="submit" asp-page-handler="KarttanSilme" asp-route-bakimTipiId="@item.BakimTipiId" class="btn btn-danger form-control"><i class="bi bi-trash-fill"></i></button></td>
                                             </tr>
                                         }
                                         <tr style="background-color:#002cff;">
@@ -95,21 +95,23 @@
                                     </table>
                                 </div>
                                 <div class="col-5 px-4 pb-2">
-                                    <div class="col-3">
-                                        <label asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.MakinaSayacSaat" class="form-label" style="border:none;"></label>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label for="txtMakineSayacSaat" class="form-label" style="border:none;">Makina Saat:</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.MakinaSayacSaat" id="txtMakineSayacSaat" class="form-control" />
+                                        </div>
                                     </div>
-                                    <div class="col-9">
-                                        <input asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.MakinaSayacSaat" id="txtMakineSayacSaat" class="form-control"/>
+                                    <div class="row py-2">
+                                        <div class="col-12">
+                                            <textarea placeholder="Buraya açıklamalarınızı girebilirsiniz..." asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.Detaylar" class="form-control" style="height:100px;"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row py-2">
-                                    <div class="col-12">
-                                        <textarea placeholder="Buraya açıklamalarınızı girebilirsiniz..." asp-for="MakinaBakimHizmetiViewModel.BakimHizmetiGenel.Detaylar" class="form-control" style="height:100px;"></textarea>
-                                    </div>
-                                </div>
-                                <div class="row p-0">
-                                    <div class="col-12">
-                                        <button class="btn btn-success form-control" onclick="return girisiOnayla()">Bakım Tamamlandı</button>
+                                    <div class="row p-0">
+                                        <div class="col-12">
+                                            <button class="btn btn-success form-control" onclick="return girisiOnayla()">Bakım Tamamlandı</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -120,3 +122,16 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function girisiOnayla() {
+            var sayacSaat = document.getElementById('txtMakineSayacSaat').value;
+            if (sayacSaat < 1) {
+                swal("Hata!","Sayaç saat bilgisine en az 1 değeri girilmelidir..","error");
+                return false;
+            }
+        }
+    </script>
+}

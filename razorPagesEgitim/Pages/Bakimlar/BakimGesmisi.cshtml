@@ -1,0 +1,90 @@
+﻿@page
+@model razorPagesEgitim.Pages.Bakimlar.BakimGesmisiModel
+@{
+    ViewData["Title"] = "Bakım Geçmişi";
+}
+
+<div class="container pt-4 pb-2 row backgroundwhite">
+    <div class="col-6">
+        <h2 class="text-info py-2">Bakım Geçmişi</h2>
+    </div>
+    <div class="col-3 offset-3 text-right py-2">
+        <a asp-page="../Makinalar/Index" asp-route-kullaniciId="@Model.KullaniciId" class="btn btn-outline-success form-control">Listeye Geri Dön</a>
+    </div>
+    @if (Model.BakimHizmetiGenel.Count == 0)
+    {
+        <div>
+            <p>Herhangi bir bakım kaydı bulunamamıştır!</p>
+        </div>
+    }
+    else { 
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 row container" style="border-bottom-left-radius: 50%; border-top-right-radius:50%;">
+                    <div class="col-1 text-center pt-3 text-white-50">
+                        <i class="bi bi-person-circle" style="font-size:30px; color:white;"></i>
+                    </div>
+                    <div class="col-5">
+                        <label class="text-info">@Model.BakimHizmetiGenel[0].Makina.ApplicationUser.adSoyad</label>
+                        <br />
+                        <label class="text-info">@Model.BakimHizmetiGenel[0].Makina.ApplicationUser.Email / @Model.BakimHizmetiGenel[0].Makina.ApplicationUser.PhoneNumber</label>
+                        <br />
+                    </div>
+                    <div class="col-5 text-right">
+                        <label class="text-info">@Model.BakimHizmetiGenel[0].Makina.Marka @Model.BakimHizmetiGenel[0].Makina.Model</label>
+                        <br />
+                        <label class="text-info">@Model.BakimHizmetiGenel[0].Makina.MakinaTipi @Model.BakimHizmetiGenel[0].Makina.Yil</label>
+                    </div>
+                    <div class="col-1 text-center pt-3 text-white-50">
+                        <i class="bi bi-gear-wide-connected" style="color:white; font-size:30px;"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped border">
+                        <tr class="table-secondary">
+                            <th>
+                                Makina Sayaç Saat
+                                @*@Html.DisplayNameFor(a=>Model.BakimHizmetiGenel[0].MakinaSayacSaat)*@
+                            </th>
+                            <th>
+                                Toplam Fiyat
+                                @*@Html.DisplayNameFor(a=>Model.BakimHizmetiGenel[0].ToplamFiyat)*@
+                            </th>
+                            <th>
+                                Detay
+                                @*@Html.DisplayNameFor(a=>Model.BakimHizmetiGenel[0].Detaylar)*@
+                            </th>
+                            <th>
+                                Bakım Tarihi
+                                @*@Html.DisplayNameFor(a=>Model.BakimHizmetiGenel[0].EklendigiTarih)*@
+                            </th>
+                            <th></th>
+                        </tr>
+                        @foreach (var item in Model.BakimHizmetiGenel)
+	                    {
+		                    <tr>
+                                <td>
+                                    @Html.DisplayFor(m=>item.MakinaSayacSaat)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m=>item.ToplamFiyat)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m=>item.Detaylar)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m=>item.EklendigiTarih)
+                                </td>
+                                <td>
+                                    <a asp-page="Detaylar" class="btn btn-info form-control" asp-route-bakimid="@item.Id">
+                                        <i class="bi bi-info-circle-fill" style="color:white;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+	                    }
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,90 @@
+﻿@page
+@model razorPagesEgitim.Pages.Bakimlar.DetaylarModel
+@{
+    ViewData["Title"] = "Detaylar";
+}
+
+<div class="container pt-4 pb-2 row backgroundwhite">
+    <div class="col-6">
+        <h2 class="text-info py-2">Bakım Detay</h2>
+    </div>
+    <div class="col-3 offset-3 text-right py-2">
+        <a asp-page="../Bakimlar/BakimGesmisi" asp-route-makineId="@Model.BakimHizmetiGenel.MakinaId" class="btn btn-outline-success form-control">Listeye Geri Dön</a>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0 row container" style="border-bottom-left-radius: 50%; border-top-right-radius:50%;">
+                <div class="col-1 text-center pt-3 text-white-50">
+                    <i class="bi bi-person-circle" style="font-size:30px; color:white;"></i>
+                </div>
+                <div class="col-5">
+                    <label class="text-info">@Model.BakimHizmetiGenel.Makina.ApplicationUser.adSoyad</label>
+                    <br />
+                    <label class="text-info">@Model.BakimHizmetiGenel.Makina.ApplicationUser.Email / @Model.BakimHizmetiGenel.Makina.ApplicationUser.PhoneNumber</label>
+                    <br />
+                </div>
+                <div class="col-5 text-right">
+                    <label class="text-info">@Model.BakimHizmetiGenel.Makina.Marka @Model.BakimHizmetiGenel.Makina.Model</label>
+                    <br />
+                    <label class="text-info">@Model.BakimHizmetiGenel.Makina.MakinaTipi @Model.BakimHizmetiGenel.Makina.Marka</label>
+                </div>
+                <div class="col-1 text-center pt-3 text-white-50">
+                    <i class="bi bi-gear-wide-connected" style="color:white; font-size:30px;"></i>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row pt-3">
+                    <div class="col-7">
+                        <table class="table table-striped border">
+                            <tr class="table-secondary">
+                                <th>
+                                    Bakım Adı
+                                    @*@Html.DisplayNameFor(a=>Model.BakimHizmetiDetay[0].BakimAdi)*@
+                                </th>
+                                <th>
+                                    Bakım Fiyatı
+                                    @*@Html.DisplayNameFor(a=>Model.BakimHizmetiDetay[0].BakimFiyati)*@
+                                </th>
+                            </tr>
+                            @foreach (var item in Model.BakimHizmetiDetay)
+	                        {
+		                        <tr>
+                                    <td>
+                                        @Html.DisplayFor(a=>item.BakimAdi)
+                                    </td> 
+                                    <td>
+                                        @Html.DisplayFor(a=>item.BakimFiyati)
+                                    </td>
+                                </tr>
+	                        }
+                            <tr style="background-color:cornflowerblue;">
+                                <td colspan="1">
+                                    <h6 class="text-light">Toplam Fiyat:</h6>
+                                </td>
+                                <td colspan="2">
+                                    <h6 class="text-light">@Model.BakimHizmetiGenel.ToplamFiyat&nbsp;TL</h6>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-5 px-4 pb-2">
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="txtMakineSayacSaat" class="col-form-label" style="border:none;">Sayaç:</label>
+                                @*<label asp-for="BakimHizmetiGenel.MakinaSayacSaat" class="form-label" style="border:none;"></label>*@
+                            </div>
+                            <div class="col-9">
+                                <input asp-for="BakimHizmetiGenel.MakinaSayacSaat" readonly class="form-control" id="txtMakineSayacSaat" />
+                            </div>
+                        </div>
+                        <div class="row py-2">
+                            <div class="col-12">
+                                <textarea class="form-control" style="height:100px;" placeholder="Ek açıklamalar..." readonly asp-for="BakimHizmetiGenel.Detaylar"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

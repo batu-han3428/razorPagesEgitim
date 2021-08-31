@@ -1,25 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using razorPagesEgitim.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace razorPagesEgitim.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IActionResult OnGet()
         {
-            _logger = logger;
-        }
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-        public void OnGet()
-        {
+            if (claim == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }else if (User.IsInRole(StatikRoller.AdminKullanici))
+            {
+                return RedirectToPage("/Kullanicilar/Index");
+            }
 
+            return RedirectToPage("/Makinalar/Index");
         }
     }
 }

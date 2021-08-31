@@ -103,7 +103,7 @@ namespace razorPagesEgitim.Pages.Bakimlar
                 _db.BakimHizmetKart.RemoveRange(MakinaBakimHizmetiViewModel.BakimHizmetKart);
                 await _db.SaveChangesAsync();
 
-                return RedirectToPage("../Makineler/Index", new { kullaniciId = MakinaBakimHizmetiViewModel.Makina.KullaniciId });
+                return RedirectToPage("../Makinalar/Index", new { kullaniciId = MakinaBakimHizmetiViewModel.Makina.KullaniciId });
             }
             else
             {

@@ -18,7 +18,7 @@ namespace razorPagesEgitim.Models
         public string Detaylar { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd MMM Y}")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 
         public DateTime EklendigiTarih { get; set; }
 
