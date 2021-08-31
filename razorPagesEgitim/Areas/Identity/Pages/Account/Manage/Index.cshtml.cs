@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using razorPagesEgitim.Data;
+using razorPagesEgitim.Models;
 
 namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
 {
@@ -13,13 +16,16 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _db;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _db = db;
         }
 
         public string Username { get; set; }
@@ -30,11 +36,24 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public class InputModel
+        public class InputModel//input model içine düzenlenmesini istediğimiz alanları yazdık
         {
+            [EmailAddress]
+            public string Email { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Required]
+            public string AdSoyad { get; set; }
+
+            public string Adres { get; set; }
+
+            public string Sehir { get; set; }
+
+            public string PostaKodu { get; set; }
+
         }
 
         private async Task LoadAsync(IdentityUser user)
@@ -42,11 +61,18 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
+            var DbKullanici = await _db.applicationUser.FirstOrDefaultAsync(a => a.Email == user.Email);//sayfa yüklenirken kullanıcının bilgilerini çektik
 
-            Input = new InputModel
+            Username = DbKullanici.UserName;//bilgileri username propuna attık
+
+            Input = new InputModel//input propuna bilgileri attık. bu sayede index.cshtml de bu veriler görüntülencek
             {
-                PhoneNumber = phoneNumber
+                AdSoyad = DbKullanici.adSoyad,
+                Email = DbKullanici.Email,
+                PhoneNumber = DbKullanici.PhoneNumber,
+                Adres = DbKullanici.adres,
+                Sehir = DbKullanici.sehir,
+                PostaKodu = DbKullanici.postaKodu
             };
         }
 
@@ -57,6 +83,21 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
+            //load bölümünde ki işlemlerin aynısı. belki burada yapmaya gerek olmaya bilir ama yinede kalsın
+            var DbKullanici = await _db.applicationUser.FirstOrDefaultAsync(a=>a.Email == user.Email);
+
+            Username = DbKullanici.UserName;
+
+            Input = new InputModel
+            {
+                AdSoyad = DbKullanici.adSoyad,
+                Email = DbKullanici.Email,
+                PhoneNumber = DbKullanici.PhoneNumber,
+                Adres = DbKullanici.adres,
+                Sehir = DbKullanici.sehir,
+                PostaKodu = DbKullanici.postaKodu
+            };
 
             await LoadAsync(user);
             return Page();
@@ -76,18 +117,30 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
+            //bilgileri güncellenecek olan kullanıcıyı çektik
+            ApplicationUser DbKullanici = await _db.applicationUser.FirstOrDefaultAsync(a=>a.Email == user.Email);
 
-            await _signInManager.RefreshSignInAsync(user);
+            //yeni bilgileri atadık
+            DbKullanici.adSoyad = Input.AdSoyad;
+            DbKullanici.adres = Input.Adres;
+            DbKullanici.sehir = Input.Sehir;
+            DbKullanici.postaKodu = Input.PostaKodu;
+            DbKullanici.PhoneNumber = Input.PhoneNumber;
+
+            await _db.SaveChangesAsync();//veri tabanına kaydettik. ıdentity de db.add demeye gerek yok
+
+            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            //if (Input.PhoneNumber != phoneNumber)
+            //{
+            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            //    if (!setPhoneResult.Succeeded)
+            //    {
+            //        StatusMessage = "Unexpected error when trying to set phone number.";
+            //        return RedirectToPage();
+            //    }
+            //}
+
+            await _signInManager.RefreshSignInAsync(DbKullanici);//yeni bilgileri refresh ederek identitye kaydettik
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
