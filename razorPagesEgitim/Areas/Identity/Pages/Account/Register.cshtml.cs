@@ -127,11 +127,11 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
                     //}
 
 
-                    if (Input.Admin)
+                    if (Input.Admin)//checkbox admin olarak işaretlendiyse
                     {
                         await _userManager.AddToRoleAsync(user, StatikRoller.AdminKullanici);
 
-                        ///
+                        //e posta doğrulama kodu
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
@@ -154,10 +154,35 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
 
                         if (User.IsInRole(StatikRoller.AdminKullanici))
                         {
+                            //e posta doğrulama kodu
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                                protocol: Request.Scheme);
+
+                            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+
                             return RedirectToPage("/Kullanicilar/Index");
                         }
                         else
                         {
+                            //e posta doğrulama kodu
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                                protocol: Request.Scheme);
+
+                            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
                             return LocalRedirect(returnUrl);
                         }
 
