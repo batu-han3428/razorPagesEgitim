@@ -59,7 +59,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    $"Lütfen şifrenizi buraya <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>tıklayarak sıfırlayınız.</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

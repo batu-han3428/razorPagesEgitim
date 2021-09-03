@@ -1,7 +1,7 @@
 ﻿@page
 @model razorPagesEgitim.Pages.Kullanicilar.IndexModel
 @{
-    ViewData["Title"] = "Referanslar";
+    ViewData["Title"] = "Kullanıcılar";
 }
 
 <form method="get" asp-page="Index">
@@ -10,7 +10,7 @@
     <div class="border backgroundwhite">
         <div class="row">
             <div class="col-6">
-                <h2 class="text-info">Referanslar</h2>
+                <h2 class="text-info">Kullanıcılar</h2>
             </div>
             <div class="col-6 text-right">
                 <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-info"><i class="bi bi-plus-lg" style="color:white;"></i>&nbsp; Yeni Referans Oluştur</a>
@@ -41,10 +41,12 @@
                     <table class="table table-striped border">
                         <tr class="table-secondary">
                             <th>
-                                @Html.DisplayNameFor(a => a.UsersListViewModel.ApplicationUserList[0].adSoyad)
+                                Ad-Soyad
+                                @*@Html.DisplayNameFor(a => a.UsersListViewModel.ApplicationUserList[0].adSoyad)*@
                             </th>
                             <th>
-                                @Html.DisplayNameFor(a => a.UsersListViewModel.ApplicationUserList[0].PhoneNumber)
+                                Telefon
+                                @*@Html.DisplayNameFor(a => a.UsersListViewModel.ApplicationUserList[0].PhoneNumber)*@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(a => a.UsersListViewModel.ApplicationUserList[0].Email)

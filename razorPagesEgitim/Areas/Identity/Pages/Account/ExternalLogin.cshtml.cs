@@ -100,7 +100,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information.";
+                ErrorMessage = "Harici girişte hata.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -108,7 +108,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                _logger.LogInformation("{Name}, {LoginProvider} sağlayıcısı ile giriş yapmıştır.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -140,7 +140,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information during confirmation.";
+                ErrorMessage = "Doğrulama esnasında harici girişte hata.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -175,7 +175,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", $"Please confirm your account by <a href='{ HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        await _emailSender.SendEmailAsync(Input.Email, "Email adresinizi doğrulayınız", $"Lütfen hesabınızı buraya <a href='{ HtmlEncoder.Default.Encode(callbackUrl)}'>tıklayarak doğrulayınız</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)

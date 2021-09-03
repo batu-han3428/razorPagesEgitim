@@ -42,7 +42,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
             public string Email { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefon")]
             public string PhoneNumber { get; set; }
 
             [Required]
@@ -141,7 +141,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
             //}
 
             await _signInManager.RefreshSignInAsync(DbKullanici);//yeni bilgileri refresh ederek identitye kaydettik
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Profiliniz güncellenmiştir.";
             return RedirectToPage();
         }
     }

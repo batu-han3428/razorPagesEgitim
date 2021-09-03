@@ -45,7 +45,7 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Yeni email")]
             public string NewEmail { get; set; }
         }
 
@@ -101,14 +101,14 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Mailinizi doğrulayın",
+                    $"Lütfen hesabınızı buraya <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>tıklayarak doğrulayınız</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Doğrulama linki email adresinize gönderilmiştir.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Email adresiniz güncellendi.";
             return RedirectToPage();
         }
 
@@ -137,10 +137,10 @@ namespace razorPagesEgitim.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Email adresinizi doğrulayın",
+                $"Lütfen hesabınızı <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>buraya tıklayarak doğrulayınız</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Doğrulama linki email adresinize gönderilmiştir.";
             return RedirectToPage();
         }
     }
